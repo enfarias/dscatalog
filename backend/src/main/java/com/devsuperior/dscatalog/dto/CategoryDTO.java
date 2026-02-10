@@ -40,8 +40,4 @@ public class CategoryDTO implements Serializable {
 		this.name = name;
 	}
 	
-	
-	
-
-	
 }

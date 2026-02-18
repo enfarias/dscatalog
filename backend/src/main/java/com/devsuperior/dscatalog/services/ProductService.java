@@ -15,7 +15,7 @@ import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.entities.Product;
 import com.devsuperior.dscatalog.repositories.CategoryRespository;
-import com.devsuperior.dscatalog.repositories.ProductRespository;
+import com.devsuperior.dscatalog.repositories.ProductRepository;
 import com.devsuperior.dscatalog.services.exceptions.DatabaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
 
@@ -25,7 +25,7 @@ import jakarta.persistence.EntityNotFoundException;
 public class ProductService {
 	
 	@Autowired
-	private ProductRespository repository;
+	private ProductRepository repository;
 	
 	@Autowired
 	private CategoryRespository categoryRepository;
@@ -70,9 +70,6 @@ public class ProductService {
 
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public void delete(Long id) {
-		if (!repository.existsById(id)) {
-			throw new ResourceNotFoundException("Id not found " + id);
-		}
 		try {
 	        	repository.deleteById(id);    		
 		}
@@ -80,7 +77,6 @@ public class ProductService {
 	        	throw new DatabaseException("Integrity violation");
 	   	}
 	}
-
 	
 	private void copyDtoToEntity(ProductDTO dto, Product entity) {
 		entity.setName(dto.getName());
